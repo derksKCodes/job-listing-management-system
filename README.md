@@ -142,10 +142,9 @@ Ensure you have the following installed:
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/your-username/job-management-system.git](https://github.com/your-username/job-management-system.git)
+    git clone https://github.com/derksKCodes/job-listing-management-system.git
     cd job-management-system/backend
     ```
-    *(Replace `your-username` with your actual GitHub username)*
 
 2.  **Create and activate a Python virtual environment:**
 
