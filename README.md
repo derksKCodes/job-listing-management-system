@@ -19,6 +19,7 @@ Welcome to the Job Management System! This is a full-stack web application desig
 * [🧪 Test Data](#-test-data)
 * [📸 Screenshots](#-screenshots)
 * [🌟 Bonus Features (Optional)](#-bonus-features-optional)
+* [📞 Contact ](#-contact)
 
 ---
 
