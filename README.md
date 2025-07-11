@@ -281,3 +281,33 @@ The following features were considered for enhancement and could be implemented 
 * **Pagination:** Implement pagination for the job list view to handle large datasets efficiently.
 * **Search Bar:** Add a search bar to quickly find jobs by title or company name.
 * **Form Validation:** Enhance client-side form validation for a smoother user experience, providing real-time feedback to users.
+
+---
+
+## 📞 Contact
+
+### Get in Touch
+
+**Derrick** - Software Developer
+
+- 📧 **Email**: [derikkaraja001@gmail.com](mailto:derikkaraja001@gmail.com)
+- 💼 **LinkedIn**: [linkedin.com/in/derks01](https://linkedin.com/in/derks01)
+- 🐱 **GitHub**: [github.com/derksKCodes](https://github.com/derksKCodes)
+- 🌐 **My Portfolio**: [My Portfolio](https://my-portfolio-project-dk-jr.vercel.app/)
+
+### Project Links
+
+- 🌐 **Live Demo**: [my-portfolio-project-dk-jr.vercel.app/](https://my-portfolio-project-dk-jr.vercel.app/)
+- 📁 **Repository**: [github.com/derksKCodes/my-portfolio-project-dk-jr](https://github.com/derksKCodes/my-portfolio-project-dk-jr)
+
+---
+
+---
+
+<div align="center">
+
+**⭐ Star this repository if you found it helpful!**
+
+Made with ❤️ by [Derrick](https://github.com/derksKCodes)
+
+</div>
