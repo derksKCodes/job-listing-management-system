@@ -29,6 +29,8 @@ This project aims to build a robust and intuitive RESTful Job Management System 
 * **Backend:** Django with Django REST Framework
 * **Database:** PostgreSQL
 * **Frontend:** React with Tailwind CSS
+* **API Communication:** Rest API using Aios
+* **Version Control:** Git & GitHub
 
 ---
 
