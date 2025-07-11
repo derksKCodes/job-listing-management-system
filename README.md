@@ -298,8 +298,8 @@ The following features were considered for enhancement and could be implemented 
 
 ### Project Links
 
-- 🌐 **Live Demo**: [my-portfolio-project-dk-jr.vercel.app/](https://my-portfolio-project-dk-jr.vercel.app/)
-- 📁 **Repository**: [github.com/derksKCodes/my-portfolio-project-dk-jr](https://github.com/derksKCodes/my-portfolio-project-dk-jr)
+- 🌐 **Live Demo**: [my-portfolio-project-dk-jr.vercel.app/](https://job-listing-management-system.vercel.app/)
+- 📁 **Repository**: [github.com/derksKCodes/my-portfolio-project-dk-jr](https://github.com/derksKCodes/job-listing-management-system)
 
 ---
 
@@ -309,6 +309,6 @@ The following features were considered for enhancement and could be implemented 
 
 **⭐ Star this repository if you found it helpful!**
 
-Made with ❤️ by [Derrick](https://github.com/derksKCodes)
+Made with ❤️ by  [Derrick](https://my-portfolio-project-dk-jr.vercel.app/)
 
 </div>
