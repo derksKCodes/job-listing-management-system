@@ -258,7 +258,6 @@ To quickly populate your database with sample job listings for testing and demo 
 
 ## 📸 Screenshots
 
-*(You can add your application screenshots here to showcase its look and feel. For example:)*
 
 ### Homepage (Active Job Listings)
 ![Homepage Screenshot](path/to/your/homepage-screenshot.png)
@@ -298,8 +297,8 @@ The following features were considered for enhancement and could be implemented 
 
 ### Project Links
 
-- 🌐 **Live Demo**: [my-portfolio-project-dk-jr.vercel.app/](https://job-listing-management-system.vercel.app/)
-- 📁 **Repository**: [github.com/derksKCodes/my-portfolio-project-dk-jr](https://github.com/derksKCodes/job-listing-management-system)
+- 🌐 **Live Demo**: [job-listing-management-system.vercel.app/](https://job-listing-management-system.vercel.app/)
+- 📁 **Repository**: [github.com/derksKCodes/job-listing-management-system](https://github.com/derksKCodes/job-listing-management-system)
 
 ---
 
