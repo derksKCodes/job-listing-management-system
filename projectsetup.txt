@@ -1,0 +1,48 @@
+# ✅ Frontend Development (React + Tailwind CSS)
+
+The React frontend will provide the **user interface**, consuming data from  **Django API using Axios** and styled with **Tailwind CSS**.
+
+---
+
+## Project Setup and Tailwind CSS Configuration
+
+### Initialize React Project (using Vite for speed):
+
+```bash
+npx create-vite@latest job_management_frontend -- --template react
+cd job_management_frontend
+npm install
+
+### Install Tailwind CSS and Axios:
+
+```bash
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+npm install axios react-router-dom
+
+### Config tailwindcss.config.css
+
+```bash
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+
+### Add Tailwind Directives to src/index.css
+
+```bash
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+### Run the Frontend Development Server:
+
+```bash
+npm run dev : runs on http://localhost:5173 (or 3000 if using Create React App).
