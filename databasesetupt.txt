@@ -1,0 +1,18 @@
+psql -U postgres
+Enter your password to enter the PostgreSQL shell.
+
+-- Create user
+CREATE USER user WITH PASSWORD 'pass';
+
+-- Create database
+CREATE DATABASE job_management_db OWNER user;
+
+-- Grant privileges
+GRANT ALL PRIVILEGES ON DATABASE job_management_db TO pass;
+
+Confirm Django Connection
+POSTGRES_DB=job_management_db
+POSTGRES_USER=user
+POSTGRES_PASSWORD=pass
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
