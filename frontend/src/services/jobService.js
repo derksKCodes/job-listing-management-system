@@ -2,10 +2,10 @@ import axios from 'axios';
 const API_BASE_URL = ' ';// Define the base URL for the API
 
 const jobService = {
-  // Fetch all jobs
-  getAllJobs: () =>{
-    return axios.get('API_BASE_URL')
-  },
+    // Fetch all jobs
+    getAllJobs: () =>{
+        return axios.get('API_BASE_URL')
+    },
     // Fetch a job by ID
     getJobId: (id) => {
         return axios.get(`${API_BASE_URL}/${id}`)

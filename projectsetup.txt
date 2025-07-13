@@ -46,3 +46,555 @@ export default {
 
 ```bash
 npm run dev : runs on http://localhost:5173 (or 3000 if using Create React App).
+
+---
+
+## API Service (src/services/jobService.js) Setup
+#### A centralized service for all your API calls using Axios.
+
+```bash
+import axios from 'axios';
+
+const API_BASE_URL = 'http://localhost:8000/api/jobs/'; // Ensure this matches your Django backend URL
+
+const jobService = {
+  getAllJobs: () => {
+    return axios.get(API_BASE_URL);
+  },
+  getJobById: (id) => {
+    return axios.get(`${API_BASE_URL}${id}/`);
+  },
+  createJob: (jobData) => {
+    return axios.post(API_BASE_URL, jobData);
+  },
+  updateJob: (id, jobData) => {
+    return axios.put(`${API_BASE_URL}${id}/`, jobData);
+  },
+  softDeleteJob: (id) => {
+    return axios.patch(`${API_BASE_URL}${id}/deactivate/`);
+  },
+};
+
+export default jobService;
+
+---
+
+##Frontend components
+#### React components to manage different parts of the UI.
+
+### src/App.jsx (Main Application and Routing):
+#### This file will set up your React Router and define the main layout.
+
+```bash
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import JobList from './components/JobList';
+import JobForm from './components/JobForm';
+import JobDetail from './components/JobDetail';
+
+function App() {
+  return (
+    <Router>
+      <div className="min-h-screen bg-gray-100 font-sans">
+        <nav className="bg-gradient-to-r from-blue-600 to-indigo-700 p-4 shadow-md">
+          <div className="container mx-auto flex justify-between items-center">
+            <Link to="/" className="text-white text-2xl font-bold tracking-wide">
+              Job Board
+            </Link>
+            <div>
+              <Link
+                to="/jobs/new"
+                className="bg-white text-blue-700 hover:bg-blue-100 px-4 py-2 rounded-full font-semibold transition duration-300 ease-in-out shadow-lg"
+              >
+                Post a New Job
+              </Link>
+            </div>
+          </div>
+        </nav>
+
+        <main className="container mx-auto p-6">
+          <Routes>
+            <Route path="/" element={<JobList />} />
+            <Route path="/jobs/new" element={<JobForm />} />
+            <Route path="/jobs/:id" element={<JobDetail />} />
+            <Route path="/jobs/:id/edit" element={<JobForm isEditMode={true} />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
+  );
+}
+
+export default App;
+
+---
+
+### src/components/JobList.jsx (Homepage/Listing Active Jobs):
+####This component fetches and displays all active job listings.
+
+```bash
+import React, { useEffect, useState } from 'react';
+import jobService from '../services/jobService';
+import { Link } from 'react-router-dom';
+import JobCard from './JobCard'; // We'll create this next
+
+function JobList() {
+  const [jobs, setJobs] = useState([]);
+  const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState(''); // 'success' or 'error'
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+  const fetchJobs = async () => {
+    try {
+      const response = await jobService.getAllJobs();
+      setJobs(response.data);
+    } catch (error) {
+      console.error('Error fetching jobs:', error);
+      setMessage('Failed to load jobs. Please try again later.');
+      setMessageType('error');
+    }
+  };
+
+  const handleSoftDelete = async (id) => {
+    if (window.confirm('Are you sure you want to deactivate this job?')) {
+      try {
+        await jobService.softDeleteJob(id);
+        setJobs(jobs.filter(job => job.id !== id)); // Remove from UI
+        setMessage('Job deactivated successfully!');
+        setMessageType('success');
+        setTimeout(() => setMessage(''), 3000); // Clear message after 3 seconds
+      } catch (error) {
+        console.error('Error deactivating job:', error);
+        setMessage('Failed to deactivate job.');
+        setMessageType('error');
+      }
+    }
+  };
+
+  return (
+    <div className="max-w-7xl mx-auto py-8">
+      <h2 className="text-4xl font-extrabold text-gray-900 mb-8 text-center">Active Job Listings</h2>
+
+      {message && (
+        <div className={`p-4 mb-4 rounded-lg text-white ${messageType === 'success' ? 'bg-green-500' : 'bg-red-500'}`}>
+          {message}
+        </div>
+      )}
+
+      {jobs.length === 0 ? (
+        <p className="text-center text-gray-600 text-lg">No active jobs found. Be the first to post!</p>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {jobs.map((job) => (
+            <JobCard key={job.id} job={job} onSoftDelete={handleSoftDelete} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default JobList;
+
+### src/components/JobCard.jsx (Individual Job Display):
+#### This component displays a single job's summary.
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+function JobCard({ job, onSoftDelete }) {
+  return (
+    <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-between border-b-4 border-blue-500">
+      <div>
+        <h3 className="text-2xl font-bold text-gray-900 mb-2 leading-tight">
+          {job.title}
+        </h3>
+        <p className="text-md text-gray-700 mb-1">
+          <span className="font-semibold">{job.company_name}</span> - {job.location}
+        </p>
+        <p className="text-xl font-extrabold text-green-600 mb-4">
+          ${job.salary.toLocaleString()}
+          <span className="text-sm font-medium text-gray-500"> / year</span>
+        </p>
+        <p className="text-gray-600 text-sm mb-4 line-clamp-3">{job.description}</p>
+      </div>
+
+      <div className="flex justify-between items-center mt-4">
+        <Link
+          to={`/jobs/${job.id}`}
+          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out text-sm"
+        >
+          View Details
+        </Link>
+        <div className="flex space-x-2">
+          <Link
+            to={`/jobs/${job.id}/edit`}
+            className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out text-sm"
+          >
+            Edit
+          </Link>
+          <button
+            onClick={() => onSoftDelete(job.id)}
+            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out text-sm"
+          >
+            Deactivate
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default JobCard;
+
+### src/components/JobForm.jsx (Create/Update Form):
+#### This component is a reusable form for both creating new jobs and editing existing ones.
+
+```bash
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import jobService from '../services/jobService';
+
+function JobForm({ isEditMode = false }) {
+  const navigate = useNavigate();
+  const { id } = useParams(); // Get ID from URL for edit mode
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    company_name: '',
+    location: '',
+    salary: '',
+    status: 'active',
+  });
+  const [errors, setErrors] = useState({});
+  const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState('');
+
+  useEffect(() => {
+    if (isEditMode && id) {
+      fetchJobData(id);
+    }
+  }, [isEditMode, id]);
+
+  const fetchJobData = async (jobId) => {
+    try {
+      const response = await jobService.getJobById(jobId);
+      setFormData(response.data);
+    } catch (error) {
+      console.error('Error fetching job for edit:', error);
+      setMessage('Failed to load job for editing.');
+      setMessageType('error');
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: name === 'salary' ? (value === '' ? '' : parseInt(value)) : value,
+    }));
+    // Clear specific error when user starts typing
+    if (errors[name]) {
+      setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.title.trim()) newErrors.title = 'Job title is required.';
+    if (!formData.description.trim()) newErrors.description = 'Job description is required.';
+    if (!formData.company_name.trim()) newErrors.company_name = 'Company name is required.';
+    if (!formData.location.trim()) newErrors.location = 'Location is required.';
+    if (!formData.salary || isNaN(formData.salary) || formData.salary <= 0) {
+      newErrors.salary = 'Valid salary is required.';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) {
+      setMessage('Please correct the errors in the form.');
+      setMessageType('error');
+      return;
+    }
+
+    try {
+      if (isEditMode) {
+        await jobService.updateJob(id, formData);
+        setMessage('Job updated successfully!');
+        setMessageType('success');
+      } else {
+        await jobService.createJob(formData);
+        setMessage('Job created successfully!');
+        setMessageType('success');
+      }
+      setTimeout(() => {
+        setMessage('');
+        navigate('/'); // Redirect to homepage after success
+      }, 1500);
+    } catch (error) {
+      console.error('Error submitting job:', error);
+      setMessage('Failed to save job. Please try again.');
+      setMessageType('error');
+    }
+  };
+
+  return (
+    <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-xl border-t-4 border-blue-600">
+      <h2 className="text-3xl font-extrabold text-gray-900 mb-6 text-center">
+        {isEditMode ? 'Edit Job Listing' : 'Post a New Job'}
+      </h2>
+
+      {message && (
+        <div className={`p-4 mb-4 rounded-lg text-white ${messageType === 'success' ? 'bg-green-500' : 'bg-red-500'}`}>
+          {message}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div>
+          <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+            Job Title
+          </label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            className={`w-full p-3 border ${errors.title ? 'border-red-500' : 'border-gray-300'} rounded-md focus:ring-blue-500 focus:border-blue-500`}
+            placeholder="e.g., Senior Software Engineer"
+            required
+          />
+          {errors.title && <p className="text-red-500 text-xs mt-1">{errors.title}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+            Job Description
+          </label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            rows="6"
+            className={`w-full p-3 border ${errors.description ? 'border-red-500' : 'border-gray-300'} rounded-md focus:ring-blue-500 focus:border-blue-500`}
+            placeholder="Provide a detailed job description..."
+            required
+          ></textarea>
+          {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="company_name" className="block text-sm font-medium text-gray-700 mb-1">
+            Company Name
+          </label>
+          <input
+            type="text"
+            id="company_name"
+            name="company_name"
+            value={formData.company_name}
+            onChange={handleChange}
+            className={`w-full p-3 border ${errors.company_name ? 'border-red-500' : 'border-gray-300'} rounded-md focus:ring-blue-500 focus:border-blue-500`}
+            placeholder="e.g., Tech Solutions Inc."
+            required
+          />
+          {errors.company_name && <p className="text-red-500 text-xs mt-1">{errors.company_name}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
+            Location
+          </label>
+          <input
+            type="text"
+            id="location"
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+            className={`w-full p-3 border ${errors.location ? 'border-red-500' : 'border-gray-300'} rounded-md focus:ring-blue-500 focus:border-blue-500`}
+            placeholder="e.g., Nairobi, Kenya or Remote"
+            required
+          />
+          {errors.location && <p className="text-red-500 text-xs mt-1">{errors.location}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="salary" className="block text-sm font-medium text-gray-700 mb-1">
+            Salary (Annual in USD)
+          </label>
+          <input
+            type="number"
+            id="salary"
+            name="salary"
+            value={formData.salary}
+            onChange={handleChange}
+            className={`w-full p-3 border ${errors.salary ? 'border-red-500' : 'border-gray-300'} rounded-md focus:ring-blue-500 focus:border-blue-500`}
+            placeholder="e.g., 90000"
+            min="0"
+            required
+          />
+          {errors.salary && <p className="text-red-500 text-xs mt-1">{errors.salary}</p>}
+        </div>
+
+        {isEditMode && (
+          <div>
+            <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
+              Status
+            </label>
+            <select
+              id="status"
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+        )}
+
+        <button
+          type="submit"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out shadow-lg transform hover:scale-105"
+        >
+          {isEditMode ? 'Update Job' : 'Create Job'}
+        </button>
+      </form>
+    </div>
+  );
+}
+
+export default JobForm;
+
+### src/components/JobDetail.jsx (Detailed Job View):
+#### This component displays all information for a specific job.
+import React, { useEffect, useState } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import jobService from '../services/jobService';
+
+function JobDetail() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [job, setJob] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState('');
+
+  useEffect(() => {
+    const fetchJob = async () => {
+      try {
+        const response = await jobService.getJobById(id);
+        setJob(response.data);
+      } catch (err) {
+        console.error('Error fetching job details:', err);
+        setError('Job not found or an error occurred.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchJob();
+  }, [id]);
+
+  const handleSoftDelete = async () => {
+    if (window.confirm('Are you sure you want to deactivate this job?')) {
+      try {
+        await jobService.softDeleteJob(id);
+        setMessage('Job deactivated successfully!');
+        setMessageType('success');
+        setTimeout(() => {
+          setMessage('');
+          navigate('/'); // Redirect to homepage after deactivation
+        }, 1500);
+      } catch (err) {
+        console.error('Error deactivating job:', err);
+        setMessage('Failed to deactivate job.');
+        setMessageType('error');
+      }
+    }
+  };
+
+  if (loading) {
+    return <div className="text-center text-lg mt-8">Loading job details...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center text-lg mt-8 text-red-600">{error}</div>;
+  }
+
+  if (!job) {
+    return <div className="text-center text-lg mt-8">No job found.</div>;
+  }
+
+  const statusColor = job.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
+
+  return (
+    <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-xl border-t-4 border-blue-600">
+      {message && (
+        <div className={`p-4 mb-4 rounded-lg text-white ${messageType === 'success' ? 'bg-green-500' : 'bg-red-500'}`}>
+          {message}
+        </div>
+      )}
+
+      <div className="flex justify-between items-start mb-6">
+        <h1 className="text-4xl font-extrabold text-gray-900 leading-tight">
+          {job.title}
+        </h1>
+        <span className={`px-4 py-1 text-sm font-semibold rounded-full ${statusColor}`}>
+          {job.status.charAt(0).toUpperCase() + job.status.slice(1)}
+        </span>
+      </div>
+
+      <p className="text-2xl text-gray-800 mb-2">
+        <span className="font-semibold">{job.company_name}</span> - {job.location}
+      </p>
+      <p className="text-3xl font-extrabold text-green-700 mb-6">
+        ${job.salary.toLocaleString()}
+        <span className="text-lg font-medium text-gray-500"> / year</span>
+      </p>
+
+      <div className="prose max-w-none text-gray-700 mb-8 leading-relaxed">
+        <h3 className="text-xl font-bold text-gray-900 mb-3">Job Description</h3>
+        <p>{job.description}</p>
+      </div>
+
+      <div className="text-gray-500 text-sm mb-8">
+        <p>Posted: {new Date(job.created_at).toLocaleDateString()}</p>
+        <p>Last Updated: {new Date(job.updated_at).toLocaleDateString()}</p>
+      </div>
+
+      <div className="flex space-x-4">
+        <Link
+          to={`/jobs/${job.id}/edit`}
+          className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out shadow-md"
+        >
+          Edit Job
+        </Link>
+        {job.status === 'active' && (
+          <button
+            onClick={handleSoftDelete}
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out shadow-md"
+          >
+            Deactivate Job
+          </button>
+        )}
+        <Link
+          to="/"
+          className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out shadow-md"
+        >
+          Back to Listings
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+export default JobDetail;
