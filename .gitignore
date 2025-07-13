@@ -1,1 +1,96 @@
-.env
+# ==============================
+# Python
+# ==============================
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+*.env
+*.env.local
+.env.*
+
+# VS Code settings
+.vscode/
+
+# macOS system files
+.DS_Store
+
+# PyCharm settings
+.idea/
+
+# ==============================
+# Django
+# ==============================
+db.sqlite3
+media/
+staticfiles/
+local_settings.py
+
+# Migrations - keep the migrations folders but ignore compiled files
+**/migrations/*.pyc
+**/migrations/__pycache__/
+
+# ==============================
+# PostgreSQL
+# ==============================
+*.pgdata
+*.pgsql
+
+# ==============================
+# Node / React
+# ==============================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# React build
+/build
+/dist
+
+# ==============================
+# Misc
+# ==============================
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# JetBrains
+.idea/
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ==============================
+# Logs
+# ==============================
+*.log
+
+# ==============================
+# Coverage reports
+# ==============================
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
