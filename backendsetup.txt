@@ -1,0 +1,15 @@
+# Backed Project Setup and Configuration
+### Django project and app set up, ready to connect to PostgreSQL and use Django REST Framework.
+
+---
+
+### Initialize Django Project:
+
+```bash
+django-admin startproject job_management_backend
+cd job_management_backend
+python -m venv venv
+source venv/bin/activate # On Windows: .\venv\Scripts\activate
+pip install django djangorestframework psycopg2-binary django-cors-headers
+python manage.py startapp jobs
+```

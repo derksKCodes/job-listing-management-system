@@ -1,4 +1,4 @@
-# ✅ Frontend Development (React + Tailwind CSS)
+# Frontend Development (React + Tailwind CSS)
 
 The React frontend will provide the **user interface**, consuming data from  **Django API using Axios** and styled with **Tailwind CSS**.
 
