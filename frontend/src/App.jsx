@@ -1,5 +1,7 @@
 // Import necessary React and React Router components
 import React from 'react';
+import './index.css';
+
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 // Import local components for different views
@@ -10,8 +12,14 @@ import JobDetail from './components/JobDetail';
 // Main App component
 function App() {
   return (
+    
     // Wrap the entire app with Router for client-side routing
     <Router>
+     <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <h1 className="text-4xl font-bold text-blue-600">
+        Tailwind CSS is working!
+      </h1>
+    </div>
       <div className="min-h-screen bg-gray-100 font-sans">
         
         {/* Navigation Bar */}

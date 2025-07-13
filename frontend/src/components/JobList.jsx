@@ -1,5 +1,6 @@
 // Import React, useEffect for lifecycle, and useState for local component state
 import React, { useEffect, useState } from 'react';
+import '../index.css';
 
 // Import  centralized job service for API calls
 import jobService from '../services/jobService';
