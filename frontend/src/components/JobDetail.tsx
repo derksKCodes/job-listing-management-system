@@ -44,6 +44,13 @@ const JobDetail: React.FC<JobDetailProps> = ({ job, onClose, onEdit, onDelete })
     });
   };
 
+  const handleDeleteConfirm = () => {
+  if (window.confirm("Are you sure you want to deactivate this job?")) {
+    onDelete();
+  }
+};
+
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 py-8">
@@ -99,7 +106,7 @@ const JobDetail: React.FC<JobDetailProps> = ({ job, onClose, onEdit, onDelete })
                     </Button>
                     {job.status === 'active' && (
                       <Button
-                        onClick={onDelete}
+                        onClick={handleDeleteConfirm}
                         variant="destructive"
                         className="bg-red-600 hover:bg-red-700"
                       >

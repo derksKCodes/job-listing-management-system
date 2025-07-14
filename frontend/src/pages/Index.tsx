@@ -8,6 +8,8 @@ import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import JobForm from '@/components/JobForm';
 import JobDetail from '@/components/JobDetail';
+import jobService from '@/services/jobService';
+
 
 interface Job {
   id: string;
@@ -30,67 +32,21 @@ const Index = () => {
   const [viewingJob, setViewingJob] = useState<Job | null>(null);
   const [showInactive, setShowInactive] = useState(false);
 
-  // Sample data initialization
-  useEffect(() => {
-    const sampleJobs: Job[] = [
-      {
-        id: '1',
-        title: 'Senior Frontend Developer',
-        description: 'We are looking for an experienced Frontend Developer to join our dynamic team. You will be responsible for building responsive web applications using React, TypeScript, and modern CSS frameworks.',
-        company_name: 'TechCorp Solutions',
-        location: 'San Francisco, CA',
-        salary: 120000,
-        status: 'active',
-        created_at: '2024-01-15T10:00:00Z',
-        updated_at: '2024-01-15T10:00:00Z',
-      },
-      {
-        id: '2',
-        title: 'Full Stack Engineer',
-        description: 'Join our engineering team to work on cutting-edge projects. Experience with Node.js, Python, and cloud technologies required.',
-        company_name: 'Innovation Labs',
-        location: 'New York, NY',
-        salary: 110000,
-        status: 'active',
-        created_at: '2024-01-16T14:30:00Z',
-        updated_at: '2024-01-16T14:30:00Z',
-      },
-      {
-        id: '3',
-        title: 'DevOps Engineer',
-        description: 'Seeking a DevOps Engineer to manage our cloud infrastructure and CI/CD pipelines. AWS and Kubernetes experience preferred.',
-        company_name: 'CloudScale Inc',
-        location: 'Seattle, WA',
-        salary: 130000,
-        status: 'active',
-        created_at: '2024-01-17T09:15:00Z',
-        updated_at: '2024-01-17T09:15:00Z',
-      },
-      {
-        id: '4',
-        title: 'UI/UX Designer',
-        description: 'Creative UI/UX Designer needed to design intuitive user interfaces and exceptional user experiences for our web and mobile applications.',
-        company_name: 'Design Studio Pro',
-        location: 'Austin, TX',
-        salary: 85000,
-        status: 'active',
-        created_at: '2024-01-18T11:45:00Z',
-        updated_at: '2024-01-18T11:45:00Z',
-      },
-      {
-        id: '5',
-        title: 'Data Scientist',
-        description: 'Analyze complex datasets and develop machine learning models to drive business insights and decision-making.',
-        company_name: 'DataWorks Analytics',
-        location: 'Remote',
-        salary: 140000,
-        status: 'active',
-        created_at: '2024-01-19T16:20:00Z',
-        updated_at: '2024-01-19T16:20:00Z',
-      },
-    ];
-    setJobs(sampleJobs);
-  }, []);
+  // Fetch jobs from backend on component mount
+useEffect(() => {
+    const fetchJobs = async () => {
+        try {
+            const response = await jobService.getAllJobs();
+            setJobs(response.data);
+        } catch (error) {
+            console.error('Error fetching jobs:', error);
+            toast.error('Failed to fetch jobs from backend.');
+        }
+    };
+
+    fetchJobs();
+}, []);
+
 
   // Filter jobs based on search and status
   useEffect(() => {
@@ -111,39 +67,47 @@ const Index = () => {
     setFilteredJobs(filtered);
   }, [jobs, searchTerm, showInactive]);
 
-  const handleCreateJob = (jobData: Omit<Job, 'id' | 'created_at' | 'updated_at'>) => {
-    const newJob: Job = {
-      ...jobData,
-      id: Date.now().toString(),
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    };
-    setJobs(prev => [newJob, ...prev]);
-    setShowForm(false);
-    toast.success('Job created successfully!');
-  };
+ const handleCreateJob = async (jobData: Omit<Job, 'id' | 'created_at' | 'updated_at'>) => {
+    try {
+        const response = await jobService.createJob(jobData);
+        setJobs(prev => [response.data, ...prev]);
+        setShowForm(false);
+        toast.success('Job created successfully!');
+    } catch (error) {
+        console.error('Error creating job:', error);
+        toast.error('Failed to create job.');
+    }
+};
 
-  const handleUpdateJob = (jobData: Omit<Job, 'id' | 'created_at' | 'updated_at'>) => {
+
+  const handleUpdateJob = async (jobData: Omit<Job, 'id' | 'created_at' | 'updated_at'>) => {
     if (!editingJob) return;
-    
-    const updatedJob: Job = {
-      ...editingJob,
-      ...jobData,
-      updated_at: new Date().toISOString(),
-    };
-    setJobs(prev => prev.map(job => job.id === editingJob.id ? updatedJob : job));
-    setEditingJob(null);
-    toast.success('Job updated successfully!');
-  };
 
-  const handleSoftDelete = (jobId: string) => {
-    setJobs(prev => prev.map(job => 
-      job.id === jobId 
-        ? { ...job, status: 'inactive' as const, updated_at: new Date().toISOString() }
-        : job
-    ));
-    toast.success('Job deactivated successfully!');
-  };
+    try {
+        const response = await jobService.updateJob(editingJob.id, jobData);
+        setJobs(prev => prev.map(job => job.id === editingJob.id ? response.data : job));
+        setEditingJob(null);
+        toast.success('Job updated successfully!');
+    } catch (error) {
+        console.error('Error updating job:', error);
+        toast.error('Failed to update job.');
+    }
+};
+
+
+const handleSoftDelete = async (jobId: string) => {
+    try {
+        await jobService.softDeleteJob(jobId);
+        setJobs(prev => prev.map(job =>
+            job.id === jobId ? { ...job, status: 'inactive', updated_at: new Date().toISOString() } : job
+        ));
+        toast.success('Job deactivated successfully!');
+    } catch (error) {
+        console.error('Error deactivating job:', error);
+        toast.error('Failed to deactivate job.');
+    }
+};
+
 
   const formatSalary = (salary: number) => {
     return new Intl.NumberFormat('en-US', {
