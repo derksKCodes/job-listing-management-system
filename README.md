@@ -260,15 +260,15 @@ To quickly populate your database with sample job listings for testing and demo 
 
 
 ### Homepage (Active Job Listings)
-![Homepage Screenshot](path/to/your/homepage-screenshot.png)
+![Homepage Screenshot](screenshots/homepage-screenshot.png)
 *A snapshot of the main job listings page, displaying various active jobs in a card layout.*
 
 ### Create New Job
-![Create Job Screenshot](path/to/your/create-job-screenshot.png)
+![Create Job Screenshot](screenshots/create-job-screenshot.png)
 *The form used to post a new job listing.*
 
 ### Job Details View
-![Job Details Screenshot](path/to/your/job-details-screenshot.png)
+![Job Details Screenshot](screenshots/job-details-screenshot.png)
 *A detailed view of a single job, showing all its attributes.*
 
 ---
