@@ -163,10 +163,10 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    # "http://localhost:5173",   # React development server
     "https://job-listing-management-system.vercel.app",  # React production server
+    'http://localhost:8080'
 ]
 
 # CORS_ALLOW_ALL_ORIGINS = True  # Uncomment this line to allow all origins (not recommended for production)
-CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_ALL_ORIGINS = os.getenv("CORS") == "True"  # Allow all origins for development purposes
 
