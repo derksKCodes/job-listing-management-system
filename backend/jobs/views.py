@@ -3,8 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Job
 from .serializers import JobSerializer
-
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 def home(request):
     return HttpResponse("Job Listing Management Backend is Running 🚀")

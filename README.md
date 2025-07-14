@@ -6,24 +6,24 @@ Welcome to the Job Management System! This is a full-stack web application desig
 
 ## 🗒️ Table of Contents
 
-* [🎯 Objective](#-objective)
-* [🛠️ Features](#️-features)
+* [Objective](#-objective)
+* [Features](#️-features)
     * [Backend (Django + Django REST Framework)](#backend-django--django-rest-framework)
     * [Frontend (React + Tailwind CSS)](#frontend-react--tailwind-css)
-* [📂 Project Structure](#-project-structure)
-* [🚀 Getting Started](#-getting-started)
+* [Project Structure](#-project-structure)
+* [Getting Started](#-getting-started)
     * [Prerequisites](#prerequisites)
     * [Backend Setup](#backend-setup)
     * [Frontend Setup](#frontend-setup)
-* [⚙️ API Endpoints](#️-api-endpoints)
-* [🧪 Test Data](#-test-data)
-* [📸 Screenshots](#-screenshots)
-* [🌟 Bonus Features (Optional)](#-bonus-features-optional)
-* [📞 Contact ](#-contact)
+* [API Endpoints](#️-api-endpoints)
+* [Test Data](#-test-data)
+* [Screenshots](#-screenshots)
+* [Bonus Features (Optional)](#-bonus-features-optional)
+* [Contact ](#-contact)
 
 ---
 
-## 🎯 Objective
+## Objective
 
 This project aims to build a robust and intuitive RESTful Job Management System utilizing a modern tech stack:
 
@@ -35,7 +35,7 @@ This project aims to build a robust and intuitive RESTful Job Management System 
 
 ---
 
-## 🛠️ Features
+## Features
 
 ### Backend (Django + Django REST Framework)
 
@@ -77,7 +77,7 @@ The React frontend offers a responsive and user-friendly interface for interacti
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 The repository is organized into two main directories: `backend` for the Django API and `frontend` for the React application.
 ```
@@ -106,28 +106,30 @@ job-management-system/
 │
 ├── frontend/
 │   ├── public/                  # Public assets
-│   │   └── index.html
 │   ├── src/
 │   │   ├── App.jsx              # Main React app component & router
 │   │   ├── main.jsx             # Entry point (for Vite)
 │   │   ├── index.css            # Global CSS, including Tailwind directives
 │   │   ├── components/
-│   │   │   ├── JobList.jsx      # Displays all active jobs
-│   │   │   ├── JobCard.jsx      # Renders individual job card
+│   │   │   ├── ui/      
 │   │   │   ├── JobForm.jsx      # Reusable form for create/edit
-│   │   │   └── JobDetail.jsx    # Displays single job details
+│   │   │   └── JobDetail.jsx    # Displays  job details
+│   │   ├── hooks/
+│   │   ├── pages/       
+│   │   │   ├── Index.jsx       # hadnle backend
 │   │   └── services/
 │   │       └── jobService.js    # Centralized Axios API calls
+│   ├── index.html               # HTML entry point
 │   ├── package.json             # Node.js project metadata & dependencies
 │   ├── tailwind.config.js       # Tailwind CSS configuration
 │   └── vite.config.js           # Vite configuration (or other bundler config)
-│
-└── README.md                    # This file
+├── screenshots/
+└── README.md                    
 ```
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 Follow these instructions to set up and run the project on your local machine.
 
@@ -176,7 +178,7 @@ Ensure you have the following installed:
             }
         }
         CORS_ALLOWED_ORIGINS = [
-            "http://localhost:5173", # Or the port your React app runs on
+            "http://localhost:8080", # Or the port your React app runs on
         ]
         ```
 
@@ -223,11 +225,11 @@ Ensure you have the following installed:
     # or
     yarn dev
     ```
-    The frontend application will typically open in your browser at `http://localhost:5173`.
+    The frontend application will typically open in your browser at `http://localhost:8080`.
 
 ---
 
-## ⚙️ API Endpoints
+## API Endpoints
 
 The following API endpoints are available from the Django backend:
 
@@ -241,7 +243,7 @@ The following API endpoints are available from the Django backend:
 
 ---
 
-## 🧪 Test Data
+## Test Data
 
 To quickly populate your database with sample job listings for testing and demo purposes, you can use a custom Django management command:
 
@@ -256,7 +258,7 @@ To quickly populate your database with sample job listings for testing and demo 
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 
 ### Homepage (Active Job Listings)
@@ -273,7 +275,7 @@ To quickly populate your database with sample job listings for testing and demo 
 
 ---
 
-## 🌟 Bonus Features (Optional)
+## Bonus Features (Optional)
 
 The following features were considered for enhancement and could be implemented to expand the application's functionality:
 
@@ -284,7 +286,7 @@ The following features were considered for enhancement and could be implemented 
 
 ---
 
-## 📞 Contact
+## Contact
 
 ### Get in Touch
 
