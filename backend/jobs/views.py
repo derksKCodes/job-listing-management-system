@@ -20,7 +20,8 @@ class JobListCreateAPIView(generics.ListCreateAPIView):
         Override the default queryset for GET requests to return only active jobs.
         This ensures the job listings page shows only active jobs by default.
         """
-        return Job.objects.filter(status='active')
+        # return Job.objects.filter(status='active')
+        return Job.objects.all()
 
     def perform_create(self, serializer):
         """
@@ -43,7 +44,7 @@ class JobDetailUpdateAPIView(generics.RetrieveUpdateAPIView):
 
 # PATCH  /api/jobs/<id>/deactivate/   (soft delete: set status to "inactive")
 
-@api_view(['PATCH'])
+@api_view(['GET','PATCH'])
 def deactivate_job(request, id):
     """
     Soft delete a job by setting its status to 'inactive' without removing it from the database.

@@ -104,7 +104,7 @@ const handleSoftDelete = async (jobId: string) => {
         toast.success('Job deactivated successfully!');
     } catch (error) {
         console.error('Error deactivating job:', error);
-        toast.error('Failed to deactivate job.');
+        toast.error('Failed to deactivate job!');
     }
 };
 

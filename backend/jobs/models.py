@@ -43,3 +43,5 @@ class Job(models.Model):
     class Meta:
         # Orders jobs by newest first when querying Job.objects.all()
         ordering = ['-created_at']
+        
+        db_table = 'jobs'  # Custom table name in the database

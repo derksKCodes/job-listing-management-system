@@ -10,19 +10,19 @@ const jobService = {
     },
     // Fetch a job by ID
     getJobId: (id) => {
-        return axios.get(`${API_BASE_URL}/${id}`)
+        return axios.get(`${API_BASE_URL}/${id}/`)
     },
     // Create a new job
     createJob: (jobData) => {
-        return axios.post(API_BASE_URL, jobData)
+        return axios.post(`${API_BASE_URL}/`, jobData)
     },
     // Update a job by ID
     updateJob: (id, jobData) => {
-        return axios.put(`${API_BASE_URL}/${id}`, jobData)
+        return axios.put(`${API_BASE_URL}/${id}/`, jobData)
     },
     // Delete a job by ID
-    SoftDeleteJob: (id) => {
-        return axios.patch(`${API_BASE_URL}/${id}`)
+    softDeleteJob: (id) => {
+        return axios.patch(`${API_BASE_URL}/${id}/deactivate/`);
     },
 };
 
