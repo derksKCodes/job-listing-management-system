@@ -33,11 +33,11 @@ DEBUG = os.getenv("DEBUG") == "True"
 
 
 ALLOWED_HOSTS = [
-
+    "job-management-backend-vi3z.onrender.com",  # Production server
+    "job-listing-management-system.vercel.app",  # React frontend
     "localhost",
     "127.0.0.1",
     "http://localhost:8080/",
-    
 ]
 
 

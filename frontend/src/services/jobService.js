@@ -1,7 +1,7 @@
 import axios from 'axios';
-const API_BASE_URL = 'http://localhost:8000/api/jobs';// Define the base URL for the API
+//const API_BASE_URL = 'http://localhost:8000/api/jobs';// Define the base URL for the API
 
-//const API_BASE_URL =  'https://job-management-backend-vi3z.onrender.com/api/jobs'; // Use Vite's env variable 
+const API_BASE_URL =  'https://job-management-backend-vi3z.onrender.com/api/jobs'; // Use Vite's env variable 
 
 const jobService = {
     // Fetch all jobs
