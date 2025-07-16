@@ -37,7 +37,7 @@ ALLOWED_HOSTS = [
     "job-listing-management-system.vercel.app",  # React frontend
     "localhost",
     "127.0.0.1",
-    "http://localhost:8080/",
+   
 ]
 
 
