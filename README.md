@@ -178,7 +178,7 @@ Ensure you have the following installed:
             }
         }
         CORS_ALLOWED_ORIGINS = [
-            "http://localhost:5173", # Or the port your React app runs on
+            "http://localhost:8080", # Or the port your React app runs on
         ]
         ```
 
@@ -225,7 +225,7 @@ Ensure you have the following installed:
     # or
     yarn dev
     ```
-    The frontend application will typically open in your browser at `http://localhost:5173`.
+    The frontend application will typically open in your browser at `http://localhost:8080`.
 
 ---
 
@@ -301,8 +301,6 @@ The following features were considered for enhancement and could be implemented 
 
 - 🌐 **Live Demo**: [job-listing-management-system.vercel.app/](https://job-listing-management-system.vercel.app/)
 - 📁 **Repository**: [github.com/derksKCodes/job-listing-management-system](https://github.com/derksKCodes/job-listing-management-system)
-
----
 
 ---
 

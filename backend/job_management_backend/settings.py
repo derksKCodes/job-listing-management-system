@@ -36,7 +36,8 @@ ALLOWED_HOSTS = [
 
     "localhost",
     "127.0.0.1",
-    "http://localhost:8080/"
+    "http://localhost:8080/",
+    
 ]
 
 
@@ -95,22 +96,22 @@ WSGI_APPLICATION = 'job_management_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB'),
-        'USER': os.getenv('POSTGRES_USER'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': os.getenv('POSTGRES_HOST'),
-        'PORT': os.getenv('POSTGRES_PORT' ),
-    }
-}
-
-
-
 # DATABASES = {
-#     'default': dj_database_url.config(default=os.getenv('DATABASE_URL'), conn_max_age=600, ssl_require=True)
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.getenv('POSTGRES_DB'),
+#         'USER': os.getenv('POSTGRES_USER'),
+#         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+#         'HOST': os.getenv('POSTGRES_HOST'),
+#         'PORT': os.getenv('POSTGRES_PORT' ),
+#     }
 # }
+
+
+#live db url connection
+DATABASES = {
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'), conn_max_age=600, ssl_require=True)
+}
 
 
 
