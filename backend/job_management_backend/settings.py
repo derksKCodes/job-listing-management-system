@@ -62,8 +62,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    "whitenoise.middleware.WhiteNoiseMiddleware", # Middleware for serving static files in production
     'corsheaders.middleware.CorsMiddleware', # Middleware for handling CORS
+    "whitenoise.middleware.WhiteNoiseMiddleware", # Middleware for serving static files in production    
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -164,7 +164,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
     "https://job-listing-management-system.vercel.app",  # React production server
-    'http://localhost:8080'
+    'http://localhost:8080',
+    "http://localhost:5173",  
+    
 ]
 
 # CORS_ALLOW_ALL_ORIGINS = True  # Uncomment this line to allow all origins (not recommended for production)
