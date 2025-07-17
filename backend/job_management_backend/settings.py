@@ -34,7 +34,6 @@ DEBUG = os.getenv("DEBUG") == "True"
 
 ALLOWED_HOSTS = [
     "job-management-backend-vi3z.onrender.com",  # Production server
-    "job-listing-management-system.vercel.app",  # React frontend
     "localhost",
     "127.0.0.1",
    
@@ -93,7 +92,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'job_management_backend.wsgi.application'
 
 
-# Database
+# local Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 # DATABASES = {
@@ -164,8 +163,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
     "https://job-listing-management-system.vercel.app",  # React production server
-    'http://localhost:8080',
-    "http://localhost:5173",  
+    'http://localhost:8080', # Local development server for React
+    "http://localhost:5173", # Local development server for React
     
 ]
 
